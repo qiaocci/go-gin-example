@@ -24,7 +24,6 @@ require (
 )
 
 replace (
-	//github.com/qiaocci/go-gin-example/pkg/settings => ~/learn/learn-go/go-gin-example/pkg/settings
 	github.com/qiaocci/go-gin-example/conf => ./conf
 	github.com/qiaocci/go-gin-example/middleware => ./middleware
 	github.com/qiaocci/go-gin-example/models => ./models
