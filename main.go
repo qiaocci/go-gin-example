@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/qiaocci/go-gin-example/pkg/settings"
 	"github.com/qiaocci/go-gin-example/routers"
+	"log"
 	"net/http"
 )
 
@@ -17,5 +18,8 @@ func main() {
 		WriteTimeout:   settings.WriteTimeout, // 允许写入的最大时间
 		MaxHeaderBytes: 1 << 20,
 	}
-	s.ListenAndServe()
+	err := s.ListenAndServe()
+	if err != nil {
+		log.Printf("server failed, err:%v\n", err)
+	}
 }
