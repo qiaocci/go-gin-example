@@ -41,3 +41,22 @@ func ExistTagByName(name string) bool {
 		return false
 	}
 }
+func ExistTagByID(id int) bool {
+	var tag Tag
+	db.Select("id").Where("id=?", id).First(&tag)
+	if tag.ID > 0 {
+		return true
+	} else {
+		return false
+	}
+}
+
+func EditTag(id int, data interface{}) bool {
+	db.Model(&Tag{}).Where("id=?", id).Updates(data)
+	return true
+}
+
+func DeleteTag(id int) bool {
+	db.Delete(&Tag{}, id)
+	return true
+}

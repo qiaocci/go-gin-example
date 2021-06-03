@@ -50,11 +50,10 @@ func init() {
 		fmt.Printf("ping failed, err:%v\n\n", err)
 		return
 	}
-	fmt.Println("ping ok")
 	// SetMaxIdleConns 用于设置连接池中空闲连接的最大数量。
 	sqlDB.SetMaxIdleConns(10)
 	// SetMaxOpenConns 设置打开数据库连接的最大数量。
 	sqlDB.SetMaxOpenConns(100)
 
-	db.AutoMigrate(&Tag{})
+	//db.AutoMigrate(&Tag{})
 }
