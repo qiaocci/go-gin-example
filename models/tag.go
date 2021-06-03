@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"gorm.io/gorm"
 )
 
@@ -15,24 +14,30 @@ type Tag struct {
 }
 
 func GetTags(pageNum int, pageSize int, maps interface{}) (tags []Tag) {
-
 	db.Where(maps).Offset(pageNum).Limit(pageSize).Find(&tags)
-	fmt.Printf("==========pageNum=%v, pageSize=%v, maps=%#v\n", pageNum, pageSize, maps)
-	fmt.Println(tags)
 	return
-}
-
-func AddMyTag() {
-	db.Create(&Tag{
-		Name:       "c",
-		CreatedBy:  "qiaocc",
-		ModifiedBy: "qiaocc",
-		State:      0,
-	})
-	fmt.Println("create success")
 }
 
 func GetTagTotal(maps interface{}) (count int64) {
 	db.Model(&Tag{}).Where(maps).Count(&count)
 	return
+}
+
+func AddTag(name string, state int, createdBy string) bool {
+	db.Create(&Tag{
+		Name:      name,
+		CreatedBy: createdBy,
+		State:     state,
+	})
+	return true
+}
+
+func ExistTagByName(name string) bool {
+	var tag Tag
+	db.Select("id").Where("name=?", name).First(&tag)
+	if tag.ID > 0 {
+		return true
+	} else {
+		return false
+	}
 }
