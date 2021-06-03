@@ -22,7 +22,7 @@ func GetTags(c *gin.Context) {
 		maps["name"] = name
 	}
 
-	var state int = -1
+	state := -1
 	if arg := c.Query("state"); arg != "" {
 		state = com.StrTo(arg).MustInt()
 		maps["state"] = state
