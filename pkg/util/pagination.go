@@ -6,9 +6,10 @@ import (
 	"github.com/unknwon/com"
 )
 
-func GetPage(c *gin.Context) int {
+// GetPageOffset 获取分页偏移量, 也就是sql分页时offset的值
+func GetPageOffset(c *gin.Context) int {
 	result := 0
-	page, _ := com.StrTo(c.Query("page")).Int()
+	page := com.StrTo(c.Query("page")).MustInt()
 	if page > 0 {
 		result = (page - 1) * settings.PageSize
 	}
