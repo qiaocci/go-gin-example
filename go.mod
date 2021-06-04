@@ -4,7 +4,8 @@ go 1.16
 
 require (
 	github.com/beego/beego/v2 v2.0.1
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/getsentry/sentry-go v0.11.0 // indirect
 	github.com/gin-gonic/gin v1.7.2
 	github.com/go-ini/ini v1.62.0
 	github.com/go-playground/validator/v10 v10.6.1 // indirect

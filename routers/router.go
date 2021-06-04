@@ -12,6 +12,8 @@ func InitRouter() *gin.Engine {
 	r.Use(gin.Recovery())
 	gin.SetMode(settings.RunMode)
 
+	r.GET("/auth", v1.GetAuth)
+
 	apiv1 := r.Group("/api/v1")
 	{
 		apiv1.GET("/tags", v1.GetTags)
