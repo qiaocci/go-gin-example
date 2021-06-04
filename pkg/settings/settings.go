@@ -14,8 +14,9 @@ var (
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
 
-	PageSize  int
-	JwtSecret string
+	PageSize   int
+	JwtSecret  string
+	SENTRY_DSN string
 )
 
 func init() {
@@ -50,4 +51,5 @@ func LoadApp() {
 	}
 	JwtSecret = sec.Key("JWT_SECRET").MustString("!@)*#)!@U#@*!@!)")
 	PageSize = sec.Key("PAGE_SIZE").MustInt(10)
+	SENTRY_DSN = sec.Key("SENTRY_DSN").String()
 }

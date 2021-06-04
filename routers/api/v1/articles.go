@@ -2,6 +2,7 @@ package v1
 
 import (
 	"github.com/beego/beego/v2/core/validation"
+	"github.com/getsentry/sentry-go"
 	"github.com/gin-gonic/gin"
 	"github.com/qiaocco/go-gin-example/models"
 	"github.com/qiaocco/go-gin-example/pkg/e"
@@ -10,6 +11,7 @@ import (
 	"github.com/unknwon/com"
 	"log"
 	"net/http"
+	"time"
 )
 
 func GetArticle(c *gin.Context) {
@@ -17,7 +19,10 @@ func GetArticle(c *gin.Context) {
 
 	valid := validation.Validation{}
 	valid.Min(id, 1, "id").Message("ID必须大于0")
+	// Flush buffered events before the program terminates.
+	defer sentry.Flush(2 * time.Second)
 
+	sentry.CaptureMessage("It works!")
 	code := e.INVALID_PARAMS
 	data := make(map[string]interface{})
 	if !valid.HasErrors() {
