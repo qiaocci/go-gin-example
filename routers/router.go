@@ -2,6 +2,7 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/qiaocco/go-gin-example/middleware/jwt"
 	"github.com/qiaocco/go-gin-example/pkg/settings"
 	v1 "github.com/qiaocco/go-gin-example/routers/api/v1"
 )
@@ -15,6 +16,8 @@ func InitRouter() *gin.Engine {
 	r.GET("/auth", v1.GetAuth)
 
 	apiv1 := r.Group("/api/v1")
+	// 引入jwt中间件
+	apiv1.Use(jwt.JWT())
 	{
 		apiv1.GET("/tags", v1.GetTags)
 		apiv1.POST("/tags", v1.AddTags)
@@ -27,5 +30,6 @@ func InitRouter() *gin.Engine {
 		apiv1.PUT("/articles/:id", v1.EditArticle)
 		apiv1.DELETE("/articles/:id", v1.DeleteArticle)
 	}
+
 	return r
 }
