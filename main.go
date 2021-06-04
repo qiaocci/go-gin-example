@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/qiaocci/go-gin-example/pkg/settings"
-	"github.com/qiaocci/go-gin-example/routers"
+	"github.com/qiaocco/go-gin-example/pkg/settings"
+	"github.com/qiaocco/go-gin-example/routers"
 	"log"
 	"net/http"
 )

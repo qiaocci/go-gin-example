@@ -2,7 +2,7 @@ package models
 
 import (
 	"fmt"
-	"github.com/qiaocci/go-gin-example/pkg/settings"
+	"github.com/qiaocco/go-gin-example/pkg/settings"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -55,5 +55,5 @@ func init() {
 	// SetMaxOpenConns 设置打开数据库连接的最大数量。
 	sqlDB.SetMaxOpenConns(100)
 
-	//db.AutoMigrate(&Tag{})
+	//db.AutoMigrate(&Article{})
 }
