@@ -22,9 +22,8 @@ func GetTags(c *gin.Context) {
 		maps["name"] = name
 	}
 
-	state := -1
 	if arg := c.Query("state"); arg != "" {
-		state = com.StrTo(arg).MustInt()
+		state := com.StrTo(arg).MustInt()
 		maps["state"] = state
 	}
 	data["lists"] = models.GetTags(util.GetPageOffset(c), settings.PageSize, maps)

@@ -44,16 +44,14 @@ func GetArticles(c *gin.Context) {
 	data := make(map[string]interface{})
 	valid := validation.Validation{}
 
-	var state int = -1
 	if arg := c.Query("state"); arg != "" {
-		state = com.StrTo(arg).MustInt()
+		state := com.StrTo(arg).MustInt()
 		maps["state"] = state
 		valid.Range(state, 0, 1, "state").Message("状态只允许0或1")
 	}
 
-	var tagID int = -1
 	if arg := c.Query("tagID"); arg != "" {
-		tagID = com.StrTo(arg).MustInt()
+		tagID := com.StrTo(arg).MustInt()
 		maps["tag_id"] = tagID
 		valid.Min(tagID, 1, "tag_id").Message("标签ID必须大于0")
 	}
@@ -129,9 +127,8 @@ func EditArticle(c *gin.Context) {
 	tagID := com.StrTo(c.Query("tagID")).MustInt()
 
 	valid := validation.Validation{}
-	var state int = -1
 	if arg := c.Query("state"); arg != "" {
-		state = com.StrTo(arg).MustInt()
+		state := com.StrTo(arg).MustInt()
 		valid.Range(state, 0, 1, "state").Message("状态只允许0或1")
 	}
 
