@@ -1,4 +1,4 @@
-module github.com/qiaocci/go-gin-example
+module github.com/qiaocco/go-gin-example
 
 go 1.16
 
@@ -24,8 +24,8 @@ require (
 )
 
 replace (
-	github.com/qiaocci/go-gin-example/conf => ./conf
-	github.com/qiaocci/go-gin-example/middleware => ./middleware
-	github.com/qiaocci/go-gin-example/models => ./models
-	github.com/qiaocci/go-gin-example/routers => ./routers
+	github.com/qiaocco/go-gin-example/conf => ./conf
+	github.com/qiaocco/go-gin-example/middleware => ./middleware
+	github.com/qiaocco/go-gin-example/models => ./models
+	github.com/qiaocco/go-gin-example/routers => ./routers
 )
