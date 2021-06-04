@@ -29,7 +29,7 @@ func init() {
 
 	db, err = gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		user, password, host, dbName)), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Silent), // 日志等级
+		Logger: logger.Default.LogMode(logger.Info), // 日志等级
 		NamingStrategy: schema.NamingStrategy{
 			TablePrefix:   tablePrefix, // 表名前缀，`User`表为`t_users`
 			SingularTable: true,        // 使用单数表名，启用该选项后，`User` 表将是`user`
