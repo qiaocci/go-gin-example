@@ -1,15 +1,15 @@
 package models
 
 import (
-	"fmt"
 	"gorm.io/gorm"
 )
 
 type Article struct {
 	gorm.Model
 
-	TagID int `json:"tag_id" gorm:"index"`
-	Tag   Tag `json:"tag"`
+	// belong to关系
+	TagID int `json:"tag_id" gorm:"index"` // 外键
+	Tag   Tag `json:"tag"`                 // 通过Tag关联查询
 
 	Title      string `json:"title"`
 	Desc       string `json:"desc"`
@@ -19,8 +19,18 @@ type Article struct {
 	State      int    `json:"state"`
 }
 
+func ExistArticleByID(id int) bool {
+	var article Article
+	db.Select("id").Where("id=?", id).First(&article)
+	if article.ID > 0 {
+		return true
+	} else {
+		return false
+	}
+}
+
 func GetArticles(PageOffset int, pageSize int, maps interface{}) (articles []Article) {
-	db.Where(maps).Offset(PageOffset).Limit(pageSize).Find(&articles)
+	db.Preload("Tag").Where(maps).Offset(PageOffset).Limit(pageSize).Find(&articles)
 	return
 }
 
@@ -30,23 +40,23 @@ func GetArticleTotal(maps interface{}) (count int64) {
 }
 
 func GetArticle(id int) (article Article) {
-	db.Where("id=?", id).First(&article)
+	db.Preload("Tag").Where("id=?", id).First(&article)
 	return
 }
 
-func AddArticle(title, desc, content, createdBy string, tagID int) bool {
+func AddArticle(data map[string]interface{}) bool {
 	db.Create(&Article{
-		Title:     title,
-		Desc:      desc,
-		Content:   content,
-		CreatedBy: createdBy,
-		TagID:     tagID,
+		Title:     data["title"].(string),
+		Desc:      data["desc"].(string),
+		Content:   data["content"].(string),
+		CreatedBy: data["CreatedBy"].(string),
+		State:     data["State"].(int),
+		TagID:     data["TagID"].(int),
 	})
 	return true
 }
 
 func EditArticle(id int, data interface{}) bool {
-	fmt.Printf("id=%v, data=%v\n", id, data)
 	db.Model(&Article{}).Where("id=?", id).Updates(data)
 	return true
 }
