@@ -1,12 +1,13 @@
 package v1
 
 import (
+	"fmt"
 	"github.com/beego/beego/v2/core/validation"
 	"github.com/gin-gonic/gin"
 	"github.com/qiaocco/go-gin-example/models"
 	"github.com/qiaocco/go-gin-example/pkg/e"
+	"github.com/qiaocco/go-gin-example/pkg/logging"
 	"github.com/qiaocco/go-gin-example/pkg/util"
-	"log"
 	"net/http"
 )
 
@@ -27,6 +28,7 @@ func GetAuth(c *gin.Context) {
 	data := make(map[string]interface{})
 	if ok {
 		isExist := models.CheckAuth(username, password)
+		fmt.Printf("isExist: %v\n", isExist)
 		if isExist {
 			token, err := util.GenerateToken(username, password)
 			if err != nil {
@@ -38,7 +40,8 @@ func GetAuth(c *gin.Context) {
 		}
 	} else {
 		for _, err := range valid.Errors {
-			log.Println(err.Key, err.Message)
+			fmt.Println("出错啦！！！")
+			logging.Info(err.Key, err.Message)
 		}
 	}
 

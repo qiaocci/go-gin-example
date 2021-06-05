@@ -5,10 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/qiaocco/go-gin-example/models"
 	"github.com/qiaocco/go-gin-example/pkg/e"
+	"github.com/qiaocco/go-gin-example/pkg/logging"
 	"github.com/qiaocco/go-gin-example/pkg/settings"
 	"github.com/qiaocco/go-gin-example/pkg/util"
 	"github.com/unknwon/com"
-	"log"
 	"net/http"
 )
 
@@ -59,7 +59,7 @@ func AddTags(c *gin.Context) {
 		}
 	} else {
 		for _, err := range valid.Errors {
-			log.Println(err.Key, err.Message)
+			logging.Println(err.Key, err.Message)
 		}
 	}
 

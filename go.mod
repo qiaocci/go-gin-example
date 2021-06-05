@@ -30,4 +30,5 @@ replace (
 	github.com/qiaocco/go-gin-example/middleware => ./middleware
 	github.com/qiaocco/go-gin-example/models => ./models
 	github.com/qiaocco/go-gin-example/routers => ./routers
+	github.com/qiaocco/go-gin-example/pkg => ./pkg
 )

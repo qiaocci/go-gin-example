@@ -5,9 +5,10 @@ import (
 	"github.com/qiaocco/go-gin-example/pkg/settings"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
+	gormLogger "gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
-	"log"
+
+	"github.com/qiaocco/go-gin-example/pkg/logging"
 )
 
 var db *gorm.DB
@@ -19,7 +20,7 @@ func init() {
 	)
 	sec, err := settings.Cfg.GetSection("database")
 	if err != nil {
-		log.Fatal(2, "failed to get section 'database': %v", err)
+		logging.Fatal(2, "failed to get section 'database': %v", err)
 	}
 	dbName = sec.Key("NAME").String()
 	user = sec.Key("USER").String()
@@ -29,19 +30,19 @@ func init() {
 
 	db, err = gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		user, password, host, dbName)), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info), // 日志等级
+		Logger: gormLogger.Default.LogMode(gormLogger.Info), // 日志等级
 		NamingStrategy: schema.NamingStrategy{
 			TablePrefix:   tablePrefix, // 表名前缀，`User`表为`t_users`
 			SingularTable: true,        // 使用单数表名，启用该选项后，`User` 表将是`user`
 		},
 	})
 	if err != nil {
-		log.Println(err)
+		logging.Info(err)
 	}
 
 	sqlDB, err := db.DB() // 常规数据库接口
 	if err != nil {
-		log.Printf("获取常规数据库接口异常, err:%v\n", err)
+		logging.Printf("获取常规数据库接口异常, err:%v\n", err)
 		return
 	}
 
