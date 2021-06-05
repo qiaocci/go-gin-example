@@ -1,0 +1,19 @@
+info:
+  contact: {}
+paths:
+  /articles/{id}:
+    get:
+      description: get article by ID
+      parameters:
+      - description: ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"ok"}'
+          schema:
+            type: string
+      summary: 查看文章
+swagger: "2.0"

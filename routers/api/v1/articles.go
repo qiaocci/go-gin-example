@@ -14,6 +14,12 @@ import (
 	"time"
 )
 
+// GetArticle godoc
+// @Summary 查看文章
+// @Description get article by ID
+// @Param   id    query    int     true        "ID"
+// @Success 200 {string} json  json "{"code":200,"data":{},"msg":"ok"}"
+// @Router /articles/{id} [get]
 func GetArticle(c *gin.Context) {
 	id := com.StrTo(c.Param("id")).MustInt()
 

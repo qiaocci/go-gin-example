@@ -5,9 +5,12 @@ import (
 	"github.com/getsentry/sentry-go"
 	sentrygin "github.com/getsentry/sentry-go/gin"
 	"github.com/gin-gonic/gin"
+	"github.com/qiaocco/go-gin-example/docs"
 	"github.com/qiaocco/go-gin-example/middleware/jwt"
 	"github.com/qiaocco/go-gin-example/pkg/settings"
 	v1 "github.com/qiaocco/go-gin-example/routers/api/v1"
+	"github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 func InitRouter() *gin.Engine {
@@ -17,6 +20,8 @@ func InitRouter() *gin.Engine {
 	}); err != nil {
 		fmt.Printf("Sentry initialization failed: %v\n", err)
 	}
+
+	setSwaggerInfo()
 
 	r := gin.New()
 	r.Use(gin.Logger())
@@ -43,6 +48,17 @@ func InitRouter() *gin.Engine {
 		apiv1.PUT("/articles/:id", v1.EditArticle)
 		apiv1.DELETE("/articles/:id", v1.DeleteArticle)
 	}
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return r
+}
+
+func setSwaggerInfo() {
+	// programatically set swagger info
+	docs.SwaggerInfo.Title = "go gin example api"
+	docs.SwaggerInfo.Description = "This is a blog server."
+	docs.SwaggerInfo.Version = "1.0"
+	//docs.SwaggerInfo.Host = "qiaocco.com"
+	docs.SwaggerInfo.BasePath = "/api/v1"
+	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 }
