@@ -8,9 +8,12 @@ import (
 	"github.com/qiaocco/go-gin-example/docs"
 	"github.com/qiaocco/go-gin-example/middleware/jwt"
 	"github.com/qiaocco/go-gin-example/pkg/setting"
+	"github.com/qiaocco/go-gin-example/pkg/upload"
+	"github.com/qiaocco/go-gin-example/routers/api"
 	v1 "github.com/qiaocco/go-gin-example/routers/api/v1"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
+	"net/http"
 )
 
 func InitRouter() *gin.Engine {
@@ -49,6 +52,8 @@ func InitRouter() *gin.Engine {
 		apiv1.DELETE("/articles/:id", v1.DeleteArticle)
 	}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r.POST("/upload", api.UploadImage)
+	r.StaticFS("/upload/images", http.Dir(upload.GetImageFullPath()))
 
 	return r
 }
