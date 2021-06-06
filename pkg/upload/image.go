@@ -35,7 +35,7 @@ func GetImageFullPath() string {
 func CheckImageExt(fileName string) bool {
 	ext := file.GetExt(fileName)
 	for _, allowExt := range setting.AppSetting.ImageAllowExts {
-		if strings.ToUpper(allowExt) == strings.ToUpper(ext) {
+		if strings.EqualFold(allowExt, ext) {
 			return true
 		}
 	}
