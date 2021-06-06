@@ -2,7 +2,7 @@ package models
 
 import (
 	"fmt"
-	"github.com/qiaocco/go-gin-example/pkg/settings"
+	"github.com/qiaocco/go-gin-example/pkg/setting"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	gormLogger "gorm.io/gorm/logger"
@@ -13,27 +13,18 @@ import (
 
 var db *gorm.DB
 
-func init() {
-	var (
-		err                                       error
-		dbName, user, password, host, tablePrefix string
-	)
-	sec, err := settings.Cfg.GetSection("database")
-	if err != nil {
-		logging.Fatal(2, "failed to get section 'database': %v", err)
-	}
-	dbName = sec.Key("NAME").String()
-	user = sec.Key("USER").String()
-	password = sec.Key("PASSWORD").String()
-	host = sec.Key("HOST").String()
-	tablePrefix = sec.Key("TABLE_PREFIX").String()
-
+func SetUp() {
+	var err error
 	db, err = gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		user, password, host, dbName)), &gorm.Config{
+		setting.DatabaseSetting.User,
+		setting.DatabaseSetting.Password,
+		setting.DatabaseSetting.Host,
+		setting.DatabaseSetting.Name,
+	)), &gorm.Config{
 		Logger: gormLogger.Default.LogMode(gormLogger.Info), // 日志等级
 		NamingStrategy: schema.NamingStrategy{
-			TablePrefix:   tablePrefix, // 表名前缀，`User`表为`t_users`
-			SingularTable: true,        // 使用单数表名，启用该选项后，`User` 表将是`user`
+			TablePrefix:   setting.DatabaseSetting.TablePrefix, // 表名前缀，`User`表为`t_users`
+			SingularTable: true,                                // 使用单数表名，启用该选项后，`User` 表将是`user`
 		},
 	})
 	if err != nil {

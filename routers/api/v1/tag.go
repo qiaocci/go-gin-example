@@ -6,7 +6,7 @@ import (
 	"github.com/qiaocco/go-gin-example/models"
 	"github.com/qiaocco/go-gin-example/pkg/e"
 	"github.com/qiaocco/go-gin-example/pkg/logging"
-	"github.com/qiaocco/go-gin-example/pkg/settings"
+	"github.com/qiaocco/go-gin-example/pkg/setting"
 	"github.com/qiaocco/go-gin-example/pkg/util"
 	"github.com/unknwon/com"
 	"net/http"
@@ -26,7 +26,7 @@ func GetTags(c *gin.Context) {
 		state := com.StrTo(arg).MustInt()
 		maps["state"] = state
 	}
-	data["lists"] = models.GetTags(util.GetPageOffset(c), settings.PageSize, maps)
+	data["lists"] = models.GetTags(util.GetPageOffset(c), setting.AppSetting.PageSize, maps)
 	data["total"] = models.GetTagTotal(maps)
 
 	code := e.SUCCESS

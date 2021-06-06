@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/qiaocco/go-gin-example/docs"
 	"github.com/qiaocco/go-gin-example/middleware/jwt"
-	"github.com/qiaocco/go-gin-example/pkg/settings"
+	"github.com/qiaocco/go-gin-example/pkg/setting"
 	v1 "github.com/qiaocco/go-gin-example/routers/api/v1"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
@@ -16,7 +16,7 @@ import (
 func InitRouter() *gin.Engine {
 	// To initialize Sentry's handler, you need to initialize Sentry itself beforehand
 	if err := sentry.Init(sentry.ClientOptions{
-		Dsn: settings.SENTRY_DSN,
+		Dsn: setting.AppSetting.SentryDsn,
 	}); err != nil {
 		fmt.Printf("Sentry initialization failed: %v\n", err)
 	}
@@ -26,7 +26,7 @@ func InitRouter() *gin.Engine {
 	r := gin.New()
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
-	gin.SetMode(settings.RunMode)
+	gin.SetMode(setting.ServerSetting.RunMode)
 
 	// Once it's done, you can attach the handler as one of your middleware
 	r.Use(sentrygin.New(sentrygin.Options{}))

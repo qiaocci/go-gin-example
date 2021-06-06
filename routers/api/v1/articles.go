@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/qiaocco/go-gin-example/models"
 	"github.com/qiaocco/go-gin-example/pkg/e"
-	"github.com/qiaocco/go-gin-example/pkg/settings"
+	"github.com/qiaocco/go-gin-example/pkg/setting"
 	"github.com/qiaocco/go-gin-example/pkg/util"
 	"github.com/unknwon/com"
 	"log"
@@ -70,7 +70,7 @@ func GetArticles(c *gin.Context) {
 	code := e.INVALID_PARAMS
 	if !valid.HasErrors() {
 		code = e.SUCCESS
-		data["lists"] = models.GetArticles(util.GetPageOffset(c), settings.PageSize, maps)
+		data["lists"] = models.GetArticles(util.GetPageOffset(c), setting.AppSetting.PageSize, maps)
 		data["total"] = models.GetArticleTotal(maps)
 	} else {
 		for _, err := range valid.Errors {
