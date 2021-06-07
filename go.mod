@@ -13,11 +13,11 @@ require (
 	github.com/go-openapi/swag v0.19.15 // indirect
 	github.com/go-playground/validator/v10 v10.6.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/gomodule/redigo v2.0.0+incompatible // indirect
 	github.com/json-iterator/go v1.1.11 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-isatty v0.0.13 // indirect
-	github.com/robfig/cron/v3 v3.0.0 // indirect
 	github.com/shiena/ansicolor v0.0.0-20200904210342-c7312218db18 // indirect
 	github.com/swaggo/gin-swagger v1.3.0
 	github.com/swaggo/swag v1.7.0
@@ -39,4 +39,5 @@ replace (
 	github.com/qiaocco/go-gin-example/models => ./models
 	github.com/qiaocco/go-gin-example/pkg => ./pkg
 	github.com/qiaocco/go-gin-example/routers => ./routers
+	github.com/qiaocco/go-gin-example/service => ./service
 )
