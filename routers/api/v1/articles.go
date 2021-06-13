@@ -2,16 +2,16 @@ package v1
 
 import (
 	"github.com/beego/beego/v2/core/validation"
-	"github.com/getsentry/sentry-go"
 	"github.com/gin-gonic/gin"
 	"github.com/qiaocco/go-gin-example/models"
+	"github.com/qiaocco/go-gin-example/pkg/app"
 	"github.com/qiaocco/go-gin-example/pkg/e"
 	"github.com/qiaocco/go-gin-example/pkg/setting"
 	"github.com/qiaocco/go-gin-example/pkg/util"
+	"github.com/qiaocco/go-gin-example/service/article_service"
 	"github.com/unknwon/com"
 	"log"
 	"net/http"
-	"time"
 )
 
 // GetArticle godoc
@@ -21,35 +21,37 @@ import (
 // @Success 200 {string} json  json "{"code":200,"data":{},"msg":"ok"}"
 // @Router /articles/{id} [get]
 func GetArticle(c *gin.Context) {
+	appG := app.Gin{C: c}
 	id := com.StrTo(c.Param("id")).MustInt()
 
 	valid := validation.Validation{}
 	valid.Min(id, 1, "id").Message("ID必须大于0")
-	// Flush buffered events before the program terminates.
-	defer sentry.Flush(2 * time.Second)
 
-	sentry.CaptureMessage("It works!")
-	code := e.INVALID_PARAMS
-	data := make(map[string]interface{})
-	if !valid.HasErrors() {
-		if models.ExistArticleByID(id) {
-			data["lists"] = models.GetArticle(id)
-			code = e.SUCCESS
-		} else {
-			code = e.ERROR_NOT_EXIST_ARTICLE
-		}
-	} else {
-		for _, err := range valid.Errors {
-			log.Printf("err.key: %s, err.message: %s", err.Key, err.Message)
-		}
+	if valid.HasErrors() {
+		app.MakeErrors(valid.Errors)
+		appG.Response(http.StatusOK, e.INVALID_PARAMS, nil)
+		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  e.GetMsg(code),
-		"data": data,
-	})
+	articleService := article_service.Article{ID: id}
+	exists, err := articleService.ExistArticleByID()
+	if err != nil {
+		appG.Response(http.StatusOK, e.ERROR_NOT_EXIST_ARTICLE, nil)
+	}
+	if !exists {
+		appG.Response(http.StatusOK, e.ERROR_NOT_EXIST_ARTICLE, nil)
+		return
+	}
+
+	article, err := articleService.Get()
+	if err != nil {
+		appG.Response(http.StatusOK, e.ERROR_GET_ARTICLE_FAIL, nil)
+		return
+	}
+
+	appG.Response(http.StatusOK, e.SUCCESS, article)
 }
+
 func GetArticles(c *gin.Context) {
 	maps := make(map[string]interface{})
 	data := make(map[string]interface{})
